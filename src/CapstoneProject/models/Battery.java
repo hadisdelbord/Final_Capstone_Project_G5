@@ -7,6 +7,7 @@ import java.util.concurrent.Executors;
 
 public class Battery {
 	
+	@SuppressWarnings("unused")
 	private String name;
 	private int capacity; // KW
 	private int currentCharge; // Percentage
@@ -37,7 +38,7 @@ public class Battery {
 						return;
 
 					}
-					if (amount + currentCharge <= capacity) {
+					if (amount + (currentCharge * capacity /100) <= capacity) {
 						currentCharge += amount;
 						// System.out.println(Thread.currentThread().getName() + " charged battery by " + amount
 							//	+ ", current charge: " + currentCharge);
@@ -49,9 +50,9 @@ public class Battery {
 						}
 						
 					} else {
-						if (amount + currentCharge > capacity) {
+						if (amount + (currentCharge * capacity /100) > capacity) {
 							currentCharge = capacity;
-							System.out.println("Battery full! Current charge: " + currentCharge);
+							System.out.println("Battery full! Current charge: " + currentCharge + "%");
 							return;
 
 						}
@@ -73,19 +74,19 @@ public class Battery {
 	
 	int pbLength = 50;
 	public void ProgressBar() throws InterruptedException {
-		double percentage = (currentCharge / capacity) * 100;
-		double completed = percentage / (100 / pbLength);
+//		double percentage = (currentCharge / capacity) * 100;
+		double completed = currentCharge / (100 / pbLength);
 		double remained = pbLength - completed;
 		
 	System.out.print("Battery is chargung...");
-	while (percentage <= 100) {
+	while (currentCharge <= 100) {
 		for (int i = 0; i < completed; i++) {
 			System.out.print("=");
 		}
 		for (int i = 0; i < remained; i++) {
 			System.out.print(" ");
 		}
-        System.out.println(percentage + "%");
+        System.out.println(currentCharge + "%");
         Thread.sleep(100);
         return;
 
