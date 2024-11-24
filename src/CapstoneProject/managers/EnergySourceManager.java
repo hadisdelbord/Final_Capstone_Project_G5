@@ -1,81 +1,64 @@
 package CapstoneProject.managers;
-import java.util.HashMap;
-import java.util.Map;
-//import java.util.concurrent.ExecutorService;
-//import java.util.concurrent.Executors;
 
+import CapstoneProject.models.Battery;
 import CapstoneProject.models.EnergySource;
-//import CapstoneProject.managers.BatteryManager;
 
-
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class EnergySourceManager {
+    private static final Map<String, EnergySource> energySources = new HashMap<>();
 
-	private static final Map<String, EnergySource> energySources = new HashMap<>();
+    public static void initialize() {
+        energySources.put("summer", new EnergySource("Solar"));
+        energySources.put("windy", new EnergySource("Wind"));
+        energySources.put("rainy", new EnergySource("Electricity"));
+    }
 
-	public static void initialize() {
-		energySources.put("summer", new EnergySource("Solar" , 2000));
-		energySources.put("windy", new EnergySource("Wind", 3000));
-		energySources.put("rainy", new EnergySource("Electricity", 4000));
-	}
-	
-//	public void charge() {
-//
-//		if (this.energySource == null) {
-//
-//			System.err.println("The Energy Source does not exist!");
-//			return;
-//
-//		}
-//
-//		double amount = this.energySource.getPower() / 3600;
-//
-//		ExecutorService executor = Executors.newFixedThreadPool(10);
-//
-//		executor.submit(new Runnable() {
-//
-//			@Override
-//			public void run() {
-//
-//				while (true) {
-//
-//					if (amount <= 0) {
-//						System.err.println("Amount charge is invalid!");
-//						return;
-//
-//					}
-//					if (amount + (currentCharge * capacity /100) <= capacity) {
-//						currentCharge += amount;
-//						// System.out.println(Thread.currentThread().getName() + " charged battery by " + amount
-//							//	+ ", current charge: " + currentCharge);
-//						try {
-//							ProgressBar();
-//						} catch (InterruptedException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
-//						
-//					} else {
-//						if (amount + (currentCharge * capacity /100) > capacity) {
-//							currentCharge = capacity;
-//							System.out.println("Battery full! Current charge: " + currentCharge + "%");
-//							return;
-//
-//						}
-//					}
-//					try {
-//						Thread.sleep(1000);
-//					} catch (InterruptedException e) {
-//						System.err.println("Interrupted!");
-//					}
-//
-//				}
-//			}
-//		});
-//		
-//		executor.shutdown();
-//
-//	}
-	
+    public static void chargeBatteries(String weather) {
+        EnergySource source = energySources.get(weather.toLowerCase());
+        if (source == null) {
+            System.out.println("Invalid weather. Please try again.");
+            return;
+        }
+        System.out.println("Using " + source.getName() + " energy to charge batteries...");
+        List<Battery> batteries = BatteryManager.getBatteries();
 
-}
+        // Create a thread for each battery to charge concurrently
+        List<Thread> threads = new ArrayList<>();
+        for (Battery battery : batteries) {
+            Thread chargingThread = new Thread(() -> {
+                while (battery.getCharge() < 100) {
+                    synchronized (battery) { // Ensure thread safety
+                        battery.recharge(10); // Increment battery charge
+                        System.out.println(battery.getName() + " recharging... Current: " + battery.getCharge() + "%");
+                    }
+                    try {
+                        Thread.sleep(1000); // Simulate time taken to recharge
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        System.out.println("Recharging interrupted for " + battery.getName());
+                    }
+                }
+                System.out.println(battery.getName() + " is now fully charged.");
+            });
+            threads.add(chargingThread);
+            chargingThread.start(); // Start the charging thread
+        }
+
+        // Wait for all threads to complete
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                System.out.println("Charging process interrupted.");
+            }
+        }
+
+        System.out.println("All batteries are fully charged.");
+    }
+}    
+
