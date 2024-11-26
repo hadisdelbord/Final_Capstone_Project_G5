@@ -20,10 +20,11 @@ public class Main {
                 System.out.println("\nMenu:");
                 System.out.println("1. Charging");
                 System.out.println("2. Add new smart object");
-                System.out.println("3. ON/OFF smart objects");
-                System.out.println("4. Show logs");
-                System.out.println("5. Batteries");
-                System.out.println("6. Exit");
+                System.out.println("3. Show List of Smart Objects");
+                System.out.println("4. ON/OFF smart objects");
+                System.out.println("5. Show logs");
+                System.out.println("6. Batteries");
+                System.out.println("7. Exit");
                 System.out.print("Choose an option: ");
 
                 int choice = scanner.nextInt();
@@ -43,17 +44,21 @@ public class Main {
                          SmartObjectManager.addSmartObject(name, energyRequired);
                          break;
                     case 3:
+                        System.out.println("\nList of Smart Objects:");
+                        SmartObjectManager.showSmartObjects();
+                        break;
+                    case 4:
                     	System.out.print("Enter object names to toggle (comma-separated): ");
                         String names = scanner.nextLine();
                         SmartObjectManager.toggleSmartObjects(names);
                         break;
-                    case 4:
+                    case 5:
                     	accessLogs(scanner);
                         break;
-                    case 5:
+                    case 6:
                         BatteryManager.showBatteryStatus();
                         break;
-                    case 6:
+                    case 7:
                         System.out.println("Exiting...");
                         scanner.close();
                         return;

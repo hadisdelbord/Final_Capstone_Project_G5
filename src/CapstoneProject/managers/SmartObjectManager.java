@@ -18,6 +18,21 @@ public class SmartObjectManager {
         smartObjects.add(new SmartObject(name, energyRequired));
         System.out.println("Added Smart Object: " + name);
     }
+    
+    public static void showSmartObjects() {
+        if (smartObjects.isEmpty()) {
+            System.out.println("No smart objects have been added yet.");
+        } else {
+            System.out.println("---------------------------------------------------");
+            System.out.printf("| %-5s | %-20s | %-15s |\n", "ID", "Name", "Energy Required");
+            System.out.println("---------------------------------------------------");
+            for (int i = 0; i < smartObjects.size(); i++) {
+                SmartObject object = smartObjects.get(i);
+                System.out.printf("| %-5d | %-20s | %-15d |\n", i, object.getName(), object.getEnergyRequired());
+            }
+            System.out.println("---------------------------------------------------");
+        }
+    }
 
     public static void toggleSmartObjects(String names) {
         String[] objectNames = names.split(","); // Split user input by commas
