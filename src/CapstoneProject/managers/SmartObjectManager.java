@@ -89,7 +89,7 @@ public class SmartObjectManager {
                         if (battery.getCharge() >= object.getEnergyRequired() && !stopFlag.get()) {
                             battery.discharge(object.getEnergyRequired());
                             consumed = true;
-                            displayStaticFrame(object.getName(), "Consuming power", battery.getName(), battery.getCharge() + "%");
+                            displayStaticFrame(object.getName(), "Consuming power", battery.getName(), battery.getChargePercentage() + "%");
                             LogManager.addLog(object.getName(), battery.getName(), "Consuming Power");
                         }
                     } finally {
@@ -106,7 +106,7 @@ public class SmartObjectManager {
                             
                             break;
                         } else {
-                            displayStaticFrame(object.getName(), "Switched to " + battery.getName(), battery.getName(), battery.getCharge() + "%");
+                            displayStaticFrame(object.getName(), "Switched to " + battery.getName(), battery.getName(), battery.getChargePercentage() + "%");
                             LogManager.addLog(object.getName(), battery.getName(), "Switched Battery");
                         }
                     }

@@ -89,7 +89,7 @@ public class Main {
                 scanner.nextLine(); // Consume the newline character
 
                 switch (logChoice) {
-//                    case 1 -> accessEnergySourceLogs(scanner);
+                    case 1 -> accessEnergySourceLogs(scanner);
                     case 2 -> accessSmartObjectLogs(scanner);
                     case 3 -> {
                         return; // Return to main menu
@@ -107,6 +107,71 @@ public class Main {
     }
     
 // Accessing logs for Energy Sources
+    
+    private static void accessEnergySourceLogs(Scanner scanner) {
+        while (true) {
+            try {
+                System.out.println("\n===== Energy Source Log Management =====");
+                System.out.println("1. View All Logs");
+                System.out.println("2. View Logs by Filter");
+                System.out.println("3. Delete Log by ID");
+                System.out.println("4. Export Logs to File");
+                System.out.println("5. Back to Log Management Menu");
+                System.out.print("Enter your choice: ");
+
+                int logChoice = scanner.nextInt();
+                scanner.nextLine(); // Consume the newline character
+
+                switch (logChoice) {
+                    case 1 -> {
+                        System.out.println("\nViewing All Logs:");
+                        ESLogManager.viewESLogs(); // Changed to ESLogManager
+                    }
+                    case 2 -> filterESLogs(scanner); // Assuming filterLogs works with both SmartObject and ES logs
+                    case 3 -> {
+                        System.out.print("Enter Log ID to delete (or -1 to delete all logs): ");
+                        int logId = scanner.nextInt();
+                        scanner.nextLine(); // Consume the newline character
+                        if (logId == -1) {
+                            System.out.print("Are you sure you want to delete all logs? (yes/no): ");
+                            String confirm = scanner.nextLine();
+                            if (confirm.equalsIgnoreCase("yes")) {
+                                while (ESLogManager.getESLogs().size() > 0) { // Changed to ESLogManager
+                                    ESLogManager.deleteESLog(0); // Continuously delete logs until empty
+                                }
+                                System.out.println("All logs deleted.");
+                            } else {
+                                System.out.println("Delete operation canceled.");
+                            }
+                        } else {
+                            ESLogManager.deleteESLog(logId); // Changed to ESLogManager
+                        }
+                    }
+                    case 4 -> {
+                        System.out.print("Enter file path to export logs (e.g., logs.csv): ");
+                        String filePath = scanner.nextLine();
+                        try {
+                            ESLogManager.exportESLogs(filePath); // Changed to ESLogManager
+                            System.out.println("Logs successfully exported to " + filePath);
+                        } catch (Exception e) {
+                            System.out.println("Failed to export logs: " + e.getMessage());
+                        }
+                    }
+                    case 5 -> {
+                        return; // Back to Log Management Menu
+                    }
+                    default -> System.out.println("Invalid choice. Please try again.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter a valid number.");
+                scanner.nextLine(); // Clear the invalid input
+            } catch (Exception e) {
+                System.out.println("An error occurred: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    }
+
     
 
 // Accessing logs for Smart Objects
@@ -225,5 +290,49 @@ public class Main {
             }
         }
     }
+    
+    private static void filterESLogs(Scanner scanner) {
+        try {
+            System.out.println("\n===== Filter Logs =====");
+            System.out.println("1. Filter by Energy Resource Name");
+            System.out.println("2. Filter by Battery Name");
+            System.out.println("3. Filter by Date");
+            System.out.print("Enter your choice: ");
+
+            int filterChoice = scanner.nextInt();
+            scanner.nextLine(); // Consume the newline character
+
+            switch (filterChoice) {
+                case 1 -> {
+                    System.out.print("Enter Energy Source Name: ");
+                    String objectName = scanner.nextLine();
+                    ESLogManager.viewESLogsByFilter("source", objectName);
+                }
+                case 2 -> {
+                    System.out.print("Enter Battery Name: ");
+                    String batteryName = scanner.nextLine();
+                    ESLogManager.viewESLogsByFilter("battery", batteryName);
+                }
+                case 3 -> {
+                    System.out.print("Enter Date (yyyy-MM-dd): ");
+                    String dateString = scanner.nextLine();
+                    try {
+                        Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+                        ESLogManager.viewESLogsByDate(date);
+                    } catch (ParseException e) {
+                        System.out.println("Invalid date format. Please use yyyy-MM-dd.");
+                    }
+                }
+                default -> System.out.println("Invalid choice. Please enter a number between 1 and 3.");
+            }
+        } catch (InputMismatchException e) {
+            System.out.println("Invalid input. Please enter a valid number.");
+            scanner.nextLine(); // Clear invalid input
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+            e.printStackTrace(); // Optional: For debugging purposes
+        }
+    }
+
     
 }

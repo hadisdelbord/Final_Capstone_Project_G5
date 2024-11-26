@@ -69,7 +69,7 @@ public class ESLogManager {
 	private static void displayESLogs(List<LogESEntry> logs) {
 		System.out.println("---------------------------------------------------");
 		System.out.printf("| %-5s | %-15s | %-15s | %-20s | %-20s |\n", "ID", "Energy Source", "Battery",
-				"Current Charge (%)", "Timestamp");
+				"Current Charge", "Timestamp");
 		System.out.println("---------------------------------------------------");
 		for (int i = 0; i < logs.size(); i++) {
 			LogESEntry log = logs.get(i);
