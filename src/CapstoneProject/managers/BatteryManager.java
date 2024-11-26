@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BatteryManager {
-    private static final List<Battery> batteries = new ArrayList<>();
+    public static final List<Battery> batteries = new ArrayList<>();
 //    private static final Object lock = new Object();
 
     public static void initialize() {
+    	batteries.clear();
         batteries.add(new Battery("Battery 1", 400, 50));
         batteries.add(new Battery("Battery 2", 300,  70));
         batteries.add(new Battery("Battery 3", 200, 25));

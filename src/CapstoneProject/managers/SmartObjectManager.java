@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class SmartObjectManager {
-    private static final List<SmartObject> smartObjects = new ArrayList<>();
+    public static final List<SmartObject> smartObjects = new ArrayList<>();
     private static final ReentrantLock batteryLock = new ReentrantLock(); // Lock for battery access
 
     public static void addSmartObject(String name, int energyRequired) {
@@ -121,20 +121,21 @@ public class SmartObjectManager {
                     object.toggle();
                     LogManager.addLog(object.getName(), "None", "Stopped Consumption");
                     System.out.println(object.getName() + " is now OFF");
-                    
                     System.out.println("\nMenu:");
                     System.out.println("1. Charging");
                     System.out.println("2. Add new smart object");
-                    System.out.println("3. ON/OFF smart objects");
-                    System.out.println("4. Show logs");
-                    System.out.println("5. Batteries");
-                    System.out.println("6. Exit");
+                    System.out.println("3. Show List of Smart Objects");
+                    System.out.println("4. ON/OFF smart objects");
+                    System.out.println("5. Show logs");
+                    System.out.println("6. Batteries");
+                    System.out.println("7. Exit");
                     System.out.print("Choose an option: ");
                 }
             }
         });
-
+        
         consumptionThread.start();
+        
 
         new Thread(() -> {
             try {

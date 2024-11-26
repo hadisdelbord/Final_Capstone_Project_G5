@@ -18,7 +18,7 @@ public class Main {
         while (true) {
             try {
                 System.out.println("\nMenu:");
-                System.out.println("1. Charging");
+                System.out.println("1. Charging Battries");
                 System.out.println("2. Add new smart object");
                 System.out.println("3. Show List of Smart Objects");
                 System.out.println("4. ON/OFF smart objects");
