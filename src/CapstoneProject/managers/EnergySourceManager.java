@@ -48,7 +48,7 @@ public class EnergySourceManager {
 	        Thread chargingThread = new Thread(() -> {
 	            while (true) {
 	                synchronized (battery) { // Ensure thread-safe access
-	                    if (battery.getChargePercentage() >= 100) {
+	                    if (battery.isFull()) {
 	                        break; // Exit if battery is fully charged
 	                    }
 
@@ -131,13 +131,13 @@ public class EnergySourceManager {
 	}
 
 	public static void ProgressBar(int[] percentages) throws InterruptedException {
-		int pbLength = 20; // Length of each progress bar
+//		int pbLength = 20; // Length of each progress bar
 
 		// Build progress output for all batteries
 		StringBuilder output = new StringBuilder("\nCharging Progress:\n");
 		for (int i = 0; i < percentages.length; i++) {
-			int completed = (int) (percentages[i] / (100.0 / pbLength)); // Completed part
-			int remained = pbLength - completed; // Remaining part
+			int completed = (int) (percentages[i] / (100.0 / BatteryManager.PROGRESSBAR_LENGTH)); // Completed part
+			int remained = BatteryManager.PROGRESSBAR_LENGTH - completed; // Remaining part
 
 			// Build the progress bar for the current battery
 			output.append("Battery ").append(i + 1).append(": [");
@@ -150,6 +150,8 @@ public class EnergySourceManager {
 			output.append(String.format("] %3d%%\n", percentages[i])); // Append percentage
 		}
 
+		
+		
 		// Clear the console by printing empty lines (Eclipse-specific workaround)
 		for (int i = 0; i < 30; i++) {
 			System.out.println();
@@ -157,6 +159,7 @@ public class EnergySourceManager {
 
 		// Print the updated progress
 		System.out.println(output);
+	
 	}
 
 }

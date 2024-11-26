@@ -12,7 +12,12 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        BatteryManager.initialize();
+        try {
+			BatteryManager.initialize();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         EnergySourceManager.initialize();
 
         while (true) {
