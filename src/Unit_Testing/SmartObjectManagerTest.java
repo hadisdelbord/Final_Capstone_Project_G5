@@ -44,7 +44,7 @@ public class SmartObjectManagerTest {
     }
 
     @Test
-    public void testEnergyConsumptionWithAvailableBattery() throws InterruptedException {
+    public void testEnergyConsumptionWithAvailableBattery() throws Exception {
         Battery battery = new Battery("Battery1", 100, 80);
         BatteryManager.batteries.add(battery);
 
@@ -57,7 +57,7 @@ public class SmartObjectManagerTest {
     }
 
     @Test
-    public void testMultipleSmartObjects() throws InterruptedException {
+    public void testMultipleSmartObjects() throws Exception {
         Battery battery1 = new Battery("Battery1", 100, 80);
         Battery battery2 = new Battery("Battery2", 500, 70);
         BatteryManager.batteries.add(battery1);

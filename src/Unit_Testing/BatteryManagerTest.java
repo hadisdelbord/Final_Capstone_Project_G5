@@ -18,7 +18,7 @@ public class BatteryManagerTest {
     }
 
     @Test
-    public void testGetBatteries() {
+    public void testGetBatteries() throws Exception {
         // Arrange
         BatteryManager.initialize();
 
@@ -32,7 +32,7 @@ public class BatteryManagerTest {
     }
 
     @Test
-    public void testShowBatteryStatus() {
+    public void testShowBatteryStatus() throws Exception {
         // Arrange
     	BatteryManager.batteries.add(new Battery("Battery A", 400, 50));
     	BatteryManager.batteries.add(new Battery("Battery B", 300,  70));

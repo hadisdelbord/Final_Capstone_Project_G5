@@ -8,7 +8,7 @@ import java.util.List;
 public class BatteryManager {
 
 	public static final int PROGRESSBAR_LENGTH = 20;
-	private static final List<Battery> batteries = new ArrayList<>();
+	public static final List<Battery> batteries = new ArrayList<>();
 
 	public static void initialize() throws Exception {
 		batteries.clear();

@@ -152,7 +152,7 @@ public class EnergySourceManager {
 
 		
 		
-		// Clear the console by printing empty lines (Eclipse-specific workaround)
+		// Clear the console by printing empty lines (Eclipse Issue)
 		for (int i = 0; i < 30; i++) {
 			System.out.println();
 		}
