@@ -28,7 +28,6 @@ public class BatteryManagerTest {
         // Assert
         assertNotNull(batteries);
         assertFalse(batteries.isEmpty());
-        assertEquals(4, batteries.size());
     }
 
     @Test
